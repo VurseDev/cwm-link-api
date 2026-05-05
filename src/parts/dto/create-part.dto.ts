@@ -1,8 +1,11 @@
 import { IsString, IsArray, IsOptional, IsInt } from 'class-validator';
 
 export class CreatePartDto {
-  @IsInt()
-  serialId: number;
+  @IsString()
+  serialId: string;
+
+  @IsString()
+  operator: string;
 
   @IsString()
   partName: string;
@@ -19,4 +22,7 @@ export class CreatePartDto {
   @IsArray()
   @IsOptional()
   steps?: string[];
+
+  @IsArray()
+  logs: string[];
 }

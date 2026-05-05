@@ -9,11 +9,39 @@ export class PartsService {
   create(dto: CreatePartDto) {
     const part = {
       id: Date.now(),
-      ...dto,
+      serialId: dto.serialId,
+      partName: dto.partName,
+      partDescription: dto.partDescription,
+      status: dto.status,
       createdAt: new Date(),
+      logs: [
+        {
+          step: 'created',
+          operator: dto.operator,
+          timestamp: new Date(),
+        },
+      ],
     };
 
     this.parts.push(part);
+    return part;
+  }
+
+  addLog(serialId: string, body: { step: string; operator: string }) {
+    const part = this.parts.find((p) => p.serialId === serialId);
+
+    if (!part) {
+      return { Error: 'Part not found!' };
+    }
+
+    const log = {
+      step: body.step,
+      operator: body.operator,
+      timestamp: new Date(),
+    };
+
+    part.logs.push(log);
+
     return part;
   }
 

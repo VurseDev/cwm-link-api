@@ -10,6 +10,7 @@ import {
 import { PartsService } from './parts.service';
 import { CreatePartDto } from './dto/create-part.dto';
 import { UpdatePartDto } from './dto/update-part.dto';
+import { Log } from './entities/logs.entity';
 
 @Controller('parts')
 export class PartsController {
@@ -18,6 +19,14 @@ export class PartsController {
   @Post()
   create(@Body() dto: CreatePartDto) {
     return this.partsService.create(dto);
+  }
+
+  @Post(':serialId/log')
+  addLog(
+    @Param('serialId') serialId: string,
+    @Body() body: { step: string; operator: string },
+  ) {
+    return this.partsService.addLog(serialId, body);
   }
 
   @Get()
