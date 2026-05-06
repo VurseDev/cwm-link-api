@@ -36,7 +36,7 @@ export class PartsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.partsService.findOne(Number(id));
+    return this.partsService.findOne(String(id));
   }
 
   @Patch(':id')

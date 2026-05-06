@@ -9,12 +9,13 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
+
 }
 
 model Part {
   id              Int      @id @default(autoincrement())
-  serialId        Int      @unique
+  serialId        String      @unique
   partName        String
   partDescription String
   status          String

@@ -1,56 +1,58 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePartDto } from './dto/create-part.dto';
 import { UpdatePartDto } from './dto/update-part.dto';
-
+import { PrismaService } from '../prisma/prisma.service';
 @Injectable()
 export class PartsService {
   private parts: any[] = [];
-
-  create(dto: CreatePartDto) {
-    const part = {
-      id: Date.now(),
-      serialId: dto.serialId,
-      partName: dto.partName,
-      partDescription: dto.partDescription,
-      status: dto.status,
-      createdAt: new Date(),
-      logs: [
-        {
-          step: 'created',
-          operator: dto.operator,
-          timestamp: new Date(),
+  constructor(private prisma: PrismaService) {}
+  async create(dto: CreatePartDto) {
+    return this.prisma.part.create({
+      data: {
+        serialId: dto.serialId,
+        partName: dto.partName,
+        partDescription: dto.partDescription,
+        status: dto.status,
+        logs: {
+          create: {
+            step: 'created',
+            operator: dto.operator,
+          },
         },
-      ],
-    };
-
-    this.parts.push(part);
-    return part;
+      },
+      include: { logs: true },
+    });
   }
 
-  addLog(serialId: string, body: { step: string; operator: string }) {
-    const part = this.parts.find((p) => p.serialId === serialId);
+  async addLog(serialId: string, body: { step: string; operator: string }) {
+    const part = await this.prisma.part.findUnique({
+      where: { serialId },
+    });
 
     if (!part) {
-      return { Error: 'Part not found!' };
+      return { error: 'Part not found!' };
     }
 
-    const log = {
-      step: body.step,
-      operator: body.operator,
-      timestamp: new Date(),
-    };
-
-    part.logs.push(log);
-
-    return part;
+    return this.prisma.log.create({
+      data: {
+        step: body.step,
+        operator: body.operator,
+        partId: part.id,
+      },
+    });
   }
 
-  findAll() {
-    return this.parts;
+  async findAll() {
+    return this.prisma.part.findMany({
+      include: { logs: true },
+    });
   }
 
-  findOne(id: number) {
-    return this.parts.find((p) => p.id === id);
+  async findOne(serialId: string) {
+    return this.prisma.part.findUnique({
+      where: { serialId },
+      include: { logs: true },
+    });
   }
 
   update(id: number, updatePartDto: UpdatePartDto) {
