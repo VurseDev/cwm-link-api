@@ -18,11 +18,7 @@ export class CreatePartDto {
 
   @IsArray()
   part: string[];
-
-  @IsArray()
-  @IsOptional()
-  steps?: string[];
-
+  /* TODO: Add the rest of classes for other api endpoints */
   @IsArray()
   logs: string[];
 }
