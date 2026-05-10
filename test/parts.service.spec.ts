@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException } from '@nestjs/common';
-import { PartsService } from './parts.service';
-import { PrismaService } from '../prisma/prisma.service';
-import { CreatePartDto } from './dto/create-part.dto';
-import { UpdatePartDto } from './dto/update-part.dto';
+import { PartsService } from '../src/parts/parts.service';
+import { PrismaService } from '../src/prisma/prisma.service';
+import { CreatePartDto } from '../src/parts/dto/create-part.dto';
+import { UpdatePartDto } from '../src/parts/dto/update-part.dto';
 import { Prisma } from '@prisma/client';
 
 describe('PartsService', () => {

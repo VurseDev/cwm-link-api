@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException } from '@nestjs/common';
-import { PartsController } from './parts.controller';
-import { PartsService } from './parts.service';
-import { CreatePartDto } from './dto/create-part.dto';
-import { UpdatePartDto } from './dto/update-part.dto';
+import { PartsController } from '../src/parts/parts.controller';
+import { PartsService } from '../src/parts/parts.service';
+import { CreatePartDto } from '../src/parts/dto/create-part.dto';
+import { UpdatePartDto } from '../src/parts/dto/update-part.dto';
 
 describe('PartsController', () => {
   let controller: PartsController;
