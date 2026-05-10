@@ -20,7 +20,7 @@ export class PartsController {
   create(@Body() dto: CreatePartDto) {
     return this.partsService.create(dto);
   }
-
+  /* Add routes to feed front-end, and login route aswell. */
   @Post(':serialId/log')
   addLog(
     @Param('serialId') serialId: string,
