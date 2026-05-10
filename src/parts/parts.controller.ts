@@ -41,11 +41,11 @@ export class PartsController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePartDto: UpdatePartDto) {
-    return this.partsService.update(+id, updatePartDto);
+    return this.partsService.update(id, updatePartDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.partsService.remove(+id);
+    return this.partsService.remove(id);
   }
 }

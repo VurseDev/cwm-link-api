@@ -31,5 +31,5 @@ model Log {
   timestamp DateTime @default(now())
 
   partId    Int
-  part      Part     @relation(fields: [partId], references: [id])
+  part      Part     @relation(fields: [partId], references: [id], onDelete: Cascade)
 }
