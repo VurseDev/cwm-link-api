@@ -38,18 +38,21 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-purple-950 to-black cross-pattern">
-      <div className="flex">
+    <div className="min-h-screen bg-background">
+      {/* Ethereal light effect */}
+      <div className="light-effect" />
+
+      <div className="flex relative z-10">
         {/* Sidebar */}
         <aside
           className={`${
             sidebarOpen ? 'w-64' : 'w-20'
-          } transition-all duration-300 bg-gray-900/50 backdrop-blur-sm border-r border-purple-500/20 min-h-screen`}
+          } transition-all duration-300 glass border-r border-border min-h-screen`}
         >
           <div className="p-4">
             <div className="flex items-center justify-between mb-8">
               {sidebarOpen && (
-                <h1 className="text-xl font-bold text-purple-400">CWM Link</h1>
+                <h1 className="text-xl font-semibold text-foreground tracking-tight">CWM Link</h1>
               )}
               <Button
                 variant="ghost"
@@ -84,9 +87,9 @@ export default function Dashboard() {
         {/* Main Content */}
         <div className="flex-1">
           {/* Header */}
-          <header className="bg-gray-900/50 backdrop-blur-sm border-b border-purple-500/20 p-4">
+          <header className="glass border-b border-border p-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-semibold text-white">
+              <h2 className="text-2xl font-semibold text-foreground tracking-tight">
                 {navItems.find((item) => item.path === location.pathname)?.label ||
                   'Dashboard'}
               </h2>

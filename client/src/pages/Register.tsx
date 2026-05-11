@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { authApi } from '@/api/client';
 import { toast } from 'sonner';
-import { UserPlus } from 'lucide-react';
+import { Mail, Lock, User, ArrowLeft } from 'lucide-react';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -38,63 +38,91 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-purple-950 to-black cross-pattern p-4">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
+    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+      {/* Ethereal light effect */}
+      <div className="light-effect" />
+
+      {/* Back to home link */}
+      <Link
+        to="/"
+        className="fixed top-6 left-6 md:left-12 flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm z-50"
       >
-        <Card className="w-full max-w-md glow">
-          <CardHeader className="space-y-1">
-            <div className="flex items-center justify-center mb-4">
-              <UserPlus className="w-12 h-12 text-purple-500" />
-            </div>
-            <CardTitle className="text-2xl text-center">Create an account</CardTitle>
-            <CardDescription className="text-center">
+        <ArrowLeft className="w-4 h-4" />
+        Back
+      </Link>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="relative z-10"
+      >
+        <Card className="w-full max-w-md glass border-border">
+          <CardHeader className="space-y-1 pb-8">
+            <CardTitle className="text-3xl text-center font-semibold tracking-tight">
+              Create an account
+            </CardTitle>
+            <CardDescription className="text-center text-muted-foreground">
               Enter your details to get started
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-5">
               <div className="space-y-2">
-                <Label htmlFor="name">Name (optional)</Label>
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="John Doe"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
+                <Label htmlFor="name" className="text-sm font-medium">Name (optional)</Label>
+                <div className="relative">
+                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input
+                    id="name"
+                    type="text"
+                    placeholder="John Doe"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="pl-10"
+                  />
+                </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="name@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
+                <Label htmlFor="email" className="text-sm font-medium">Email</Label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="name@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="pl-10"
+                    required
+                  />
+                </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="Create a password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
+                <Label htmlFor="password" className="text-sm font-medium">Password</Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="Create a password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="pl-10"
+                    required
+                  />
+                </div>
               </div>
-              <Button type="submit" className="w-full" disabled={isLoading}>
+              <Button
+                type="submit"
+                className="w-full rounded-full mt-6"
+                disabled={isLoading}
+              >
                 {isLoading ? 'Creating account...' : 'Sign up'}
               </Button>
             </form>
-            <div className="mt-4 text-center text-sm">
+            <div className="mt-6 text-center text-sm">
               <span className="text-muted-foreground">Already have an account? </span>
-              <Link to="/login" className="text-primary hover:underline">
+              <Link to="/login" className="text-foreground hover:underline font-medium">
                 Sign in
               </Link>
             </div>

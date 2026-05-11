@@ -92,16 +92,16 @@ export default function DashboardOverview() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
           >
-            <Card className="bg-gray-900/50 backdrop-blur-sm border-purple-500/20 hover:border-purple-500/50 transition-all hover:glow">
+            <Card className="glass hover:glass-hover transition-all duration-300">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-gray-300">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
                   {stat.title}
                 </CardTitle>
                 <stat.icon className={`w-5 h-5 ${stat.color}`} />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-white">{stat.value}</div>
-                <p className="text-xs text-green-500 mt-1">{stat.trend} from last month</p>
+                <div className="text-2xl font-bold text-foreground">{stat.value}</div>
+                <p className="text-xs text-muted-foreground mt-1">{stat.trend} from last month</p>
               </CardContent>
             </Card>
           </motion.div>
@@ -110,26 +110,28 @@ export default function DashboardOverview() {
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="bg-gray-900/50 backdrop-blur-sm border-purple-500/20">
+        <Card className="glass border-border">
           <CardHeader>
-            <CardTitle>Parts Inventory Trend</CardTitle>
+            <CardTitle className="text-foreground">Parts Inventory Trend</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                <XAxis dataKey="month" stroke="#9ca3af" />
-                <YAxis stroke="#9ca3af" />
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" />
+                <YAxis stroke="hsl(var(--muted-foreground))" />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: '#1f2937',
-                    border: '1px solid #4b5563',
+                    backgroundColor: 'hsl(var(--card))',
+                    border: '1px solid hsl(var(--border))',
+                    borderRadius: '8px',
+                    color: 'hsl(var(--foreground))'
                   }}
                 />
                 <Line
                   type="monotone"
                   dataKey="parts"
-                  stroke="#8b5cf6"
+                  stroke="hsl(var(--accent))"
                   strokeWidth={2}
                 />
               </LineChart>
@@ -137,23 +139,25 @@ export default function DashboardOverview() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gray-900/50 backdrop-blur-sm border-purple-500/20">
+        <Card className="glass border-border">
           <CardHeader>
-            <CardTitle>Parts Usage</CardTitle>
+            <CardTitle className="text-foreground">Parts Usage</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                <XAxis dataKey="month" stroke="#9ca3af" />
-                <YAxis stroke="#9ca3af" />
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" />
+                <YAxis stroke="hsl(var(--muted-foreground))" />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: '#1f2937',
-                    border: '1px solid #4b5563',
+                    backgroundColor: 'hsl(var(--card))',
+                    border: '1px solid hsl(var(--border))',
+                    borderRadius: '8px',
+                    color: 'hsl(var(--foreground))'
                   }}
                 />
-                <Bar dataKey="usage" fill="#8b5cf6" />
+                <Bar dataKey="usage" fill="hsl(var(--accent))" />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
@@ -161,23 +165,23 @@ export default function DashboardOverview() {
       </div>
 
       {/* Recent Activity */}
-      <Card className="bg-gray-900/50 backdrop-blur-sm border-purple-500/20">
+      <Card className="glass border-border">
         <CardHeader>
-          <CardTitle>Recent Activity</CardTitle>
+          <CardTitle className="text-foreground">Recent Activity</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {recentActivity.map((activity) => (
               <div
                 key={activity.id}
-                className="flex items-start gap-4 p-3 rounded-lg bg-gray-800/50 hover:bg-gray-800 transition-colors"
+                className="flex items-start gap-4 p-3 rounded-lg glass hover:glass-hover transition-all duration-200"
               >
-                <div className="w-2 h-2 bg-purple-500 rounded-full mt-2"></div>
+                <div className="w-2 h-2 bg-accent rounded-full mt-2"></div>
                 <div className="flex-1">
-                  <p className="font-medium text-white">{activity.action}</p>
-                  <p className="text-sm text-gray-400">{activity.description}</p>
+                  <p className="font-medium text-foreground">{activity.action}</p>
+                  <p className="text-sm text-muted-foreground">{activity.description}</p>
                 </div>
-                <span className="text-xs text-gray-500">{activity.time}</span>
+                <span className="text-xs text-muted-foreground">{activity.time}</span>
               </div>
             ))}
           </div>
