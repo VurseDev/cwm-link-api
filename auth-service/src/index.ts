@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3001;
 const app = new Elysia()
   .use(
     cors({
-      origin: ["http://localhost:5173", "http://localhost:3000"],
+      origin: true, // Allow all origins in development (change for production)
       credentials: true,
     })
   )
