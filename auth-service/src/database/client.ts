@@ -1,7 +1,10 @@
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
+import { drizzle } from "drizzle-orm/bun-sqlite";
+import { Database } from "bun:sqlite";
+import * as schema from "./schema";
 
-const connectionString = process.env.DATABASE_URL!;
+// Use SQLite for local development/testing
+// For production, switch back to PostgreSQL
+const dbPath = process.env.DATABASE_URL?.replace("file:", "") || "./auth.db";
+const sqlite = new Database(dbPath, { create: true, readwrite: true, strict: true });
 
-const client = postgres(connectionString, { max: 1 });
-export const db = drizzle(client);
+export const db = drizzle(sqlite, { schema });

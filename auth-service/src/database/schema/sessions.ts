@@ -1,11 +1,14 @@
-import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 
-export const sessions = pgTable("sessions", {
+export const sessions = sqliteTable("sessions", {
   id: text("id").primaryKey(),
   userId: text("user_id").notNull(),
-  expiresAt: timestamp("expires_at").notNull(),
-  createdAt: timestamp("created_at").notNull(),
-  updatedAt: timestamp("updated_at")
+  expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
+  token: text("token").unique().notNull(),
+  ipAddress: text("ip_address"),
+  userAgent: text("user_agent"),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp" })
     .$onUpdate(() => new Date())
     .notNull(),
 });
