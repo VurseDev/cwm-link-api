@@ -3,6 +3,13 @@
 /node_modules
 /build
 
+# Auth service
+auth-service/node_modules
+auth-service/bun.lock
+auth-service/.env
+auth-service/auth.db
+auth-service/drizzle
+
 # Logs
 logs
 *.log

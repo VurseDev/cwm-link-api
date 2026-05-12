@@ -1,0 +1,20 @@
+{
+  "name": "cwm-link-auth-service",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "db:generate": "bun --env-file .env --bun drizzle-kit generate",
+    "db:migrate": "bun --env-file .env --bun drizzle-kit migrate"
+  },
+  "dependencies": {
+    "@elysiajs/cors": "^1.2.1",
+    "better-auth": "^1.5.5",
+    "drizzle-orm": "^0.45.1",
+    "elysia": "^1.2.21",
+    "postgres": "^3.4.8"
+  },
+  "devDependencies": {
+    "bun-types": "latest",
+    "drizzle-kit": "^0.31.9"
+  }
+}
