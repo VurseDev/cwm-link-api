@@ -3,10 +3,6 @@ import type {
   Part,
   CreatePartDto,
   UpdatePartDto,
-  AuthResponse,
-  LoginDto,
-  RegisterDto,
-  User,
 } from '@/types';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
@@ -16,15 +12,7 @@ const apiClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-});
-
-// Add auth token to requests
-apiClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
+  withCredentials: true, // Enable sending cookies for Better Auth sessions
 });
 
 // Parts API
@@ -54,22 +42,8 @@ export const partsApi = {
   },
 };
 
-// Auth API
-export const authApi = {
-  login: async (data: LoginDto): Promise<AuthResponse> => {
-    const response = await apiClient.post('/auth/login', data);
-    return response.data;
-  },
-
-  register: async (data: RegisterDto): Promise<AuthResponse> => {
-    const response = await apiClient.post('/auth/register', data);
-    return response.data;
-  },
-
-  getProfile: async (): Promise<User> => {
-    const response = await apiClient.get('/auth/profile');
-    return response.data;
-  },
-};
+// Note: Authentication is handled by Better Auth microservice (port 3000)
+// Use the auth client from @/lib/auth for sign-in, sign-up, sign-out, and session management
+// This API client is only for business logic endpoints (parts, workers, etc.)
 
 export default apiClient;
