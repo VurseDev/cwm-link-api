@@ -33,8 +33,5 @@ export const auth = betterAuth({
     },
   },
   
-  trustedOrigins: [
-    "http://localhost:5173", // Vite dev
-    "http://localhost:3000", // NestJS API
-  ],
+  trustedOrigins: ["*"], // Allow all origins for development
 });
