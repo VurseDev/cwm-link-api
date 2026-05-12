@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { authApi } from '@/api/client';
+import { signIn } from '@/lib/auth';
 import { toast } from 'sonner';
 import { Mail, Lock, ArrowLeft } from 'lucide-react';
 
@@ -20,16 +20,24 @@ export default function Login() {
     setIsLoading(true);
 
     try {
-      const response = await authApi.login({ email, password });
-      localStorage.setItem('token', response.access_token);
-      localStorage.setItem('user', JSON.stringify(response.user));
-      toast.success('Login successful!', {
-        description: `Welcome back, ${response.user.email}`,
+      const response = await signIn.email({
+        email,
+        password,
       });
-      navigate('/dashboard');
+
+      if (response.error) {
+        toast.error('Login failed', {
+          description: response.error.message || 'Invalid credentials',
+        });
+      } else {
+        toast.success('Login successful!', {
+          description: `Welcome back, ${email}`,
+        });
+        navigate('/dashboard');
+      }
     } catch (error: any) {
       toast.error('Login failed', {
-        description: error.response?.data?.message || 'Invalid credentials',
+        description: error.message || 'An error occurred during login',
       });
     } finally {
       setIsLoading(false);

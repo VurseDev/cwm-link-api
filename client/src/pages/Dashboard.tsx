@@ -17,19 +17,22 @@ import {
   Menu,
 } from 'lucide-react';
 import { useState } from 'react';
+import { signOut, useSession } from '@/lib/auth';
+import { toast } from 'sonner';
 
 export default function Dashboard() {
   const navigate = useNavigate();
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const { data: session } = useSession();
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+  const handleLogout = async () => {
+    await signOut();
+    toast.success('Signed out successfully');
     navigate('/login');
   };
 
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const user = session?.user || { name: 'User', email: '' };
 
   const navItems = [
     { path: '/dashboard', icon: LayoutDashboard, label: 'Overview' },

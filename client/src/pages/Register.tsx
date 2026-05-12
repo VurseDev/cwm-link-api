@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { authApi } from '@/api/client';
+import { signUp } from '@/lib/auth';
 import { toast } from 'sonner';
 import { Mail, Lock, User, ArrowLeft } from 'lucide-react';
 
@@ -21,16 +21,26 @@ export default function Register() {
     setIsLoading(true);
 
     try {
-      const response = await authApi.register({ email, password, name });
-      localStorage.setItem('token', response.access_token);
-      localStorage.setItem('user', JSON.stringify(response.user));
-      toast.success('Registration successful!', {
-        description: 'Your account has been created.',
+      const response = await signUp.email({
+        email,
+        password,
+        name: name || email.split('@')[0], // Use email prefix as fallback
       });
-      navigate('/dashboard');
+
+      if (response.error) {
+        toast.error('Registration failed', {
+          description: response.error.message || 'Please try again',
+        });
+      } else {
+        toast.success('Registration successful!', {
+          description: 'Your account has been created.',
+        });
+        // Better Auth auto-signs in on registration
+        navigate('/dashboard');
+      }
     } catch (error: any) {
       toast.error('Registration failed', {
-        description: error.response?.data?.message || 'Please try again',
+        description: error.message || 'An error occurred during registration',
       });
     } finally {
       setIsLoading(false);
