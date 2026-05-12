@@ -28,19 +28,19 @@ export default function Register() {
       });
 
       if (response.error) {
-        toast.error('Registration failed', {
-          description: response.error.message || 'Please try again',
+        toast.error('Falha no cadastro', {
+          description: response.error.message || 'Por favor, tente novamente',
         });
       } else {
-        toast.success('Registration successful!', {
-          description: 'Your account has been created.',
+        toast.success('Cadastro realizado com sucesso!', {
+          description: 'Sua conta foi criada.',
         });
         // Better Auth auto-signs in on registration
         navigate('/dashboard');
       }
     } catch (error: any) {
-      toast.error('Registration failed', {
-        description: error.message || 'An error occurred during registration',
+      toast.error('Falha no cadastro', {
+        description: error.message || 'Ocorreu um erro durante o cadastro',
       });
     } finally {
       setIsLoading(false);
@@ -58,7 +58,7 @@ export default function Register() {
         className="fixed top-6 left-6 md:left-12 flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm z-50"
       >
         <ArrowLeft className="w-4 h-4" />
-        Back
+        Voltar
       </Link>
 
       <motion.div
@@ -70,22 +70,22 @@ export default function Register() {
         <Card className="w-full max-w-md glass border-border">
           <CardHeader className="space-y-1 pb-8">
             <CardTitle className="text-3xl text-center font-semibold tracking-tight">
-              Create an account
+              Criar uma conta
             </CardTitle>
             <CardDescription className="text-center text-muted-foreground">
-              Enter your details to get started
+              Digite seus dados para começar
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-sm font-medium">Name (optional)</Label>
+                <Label htmlFor="name" className="text-sm font-medium">Nome (opcional)</Label>
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <Input
                     id="name"
                     type="text"
-                    placeholder="John Doe"
+                    placeholder="João Silva"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="pl-10"
@@ -99,7 +99,7 @@ export default function Register() {
                   <Input
                     id="email"
                     type="email"
-                    placeholder="name@example.com"
+                    placeholder="nome@exemplo.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="pl-10"
@@ -108,13 +108,13 @@ export default function Register() {
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-sm font-medium">Password</Label>
+                <Label htmlFor="password" className="text-sm font-medium">Senha</Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <Input
                     id="password"
                     type="password"
-                    placeholder="Create a password"
+                    placeholder="Crie uma senha"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="pl-10"
@@ -127,13 +127,13 @@ export default function Register() {
                 className="w-full rounded-full mt-6"
                 disabled={isLoading}
               >
-                {isLoading ? 'Creating account...' : 'Sign up'}
+                {isLoading ? 'Criando conta...' : 'Cadastrar'}
               </Button>
             </form>
             <div className="mt-6 text-center text-sm">
-              <span className="text-muted-foreground">Already have an account? </span>
+              <span className="text-muted-foreground">Já tem uma conta? </span>
               <Link to="/login" className="text-foreground hover:underline font-medium">
-                Sign in
+                Entrar
               </Link>
             </div>
           </CardContent>

@@ -28,16 +28,16 @@ export default function Dashboard() {
 
   const handleLogout = async () => {
     await signOut();
-    toast.success('Signed out successfully');
+    toast.success('Desconectado com sucesso');
     navigate('/login');
   };
 
-  const user = session?.user || { name: 'User', email: '' };
+  const user = session?.user || { name: 'Usuário', email: '' };
 
   const navItems = [
-    { path: '/dashboard', icon: LayoutDashboard, label: 'Overview' },
-    { path: '/dashboard/parts', icon: Package, label: 'Parts' },
-    { path: '/dashboard/workers', icon: Users, label: 'Workers' },
+    { path: '/dashboard', icon: LayoutDashboard, label: 'Visão Geral' },
+    { path: '/dashboard/parts', icon: Package, label: 'Peças' },
+    { path: '/dashboard/workers', icon: Users, label: 'Trabalhadores' },
   ];
 
   return (
@@ -105,11 +105,11 @@ export default function Dashboard() {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleLogout}>
                     <LogOut className="w-4 h-4 mr-2" />
-                    Logout
+                    Sair
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

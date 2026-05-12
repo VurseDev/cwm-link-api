@@ -1,83 +1,37 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Package, TrendingUp, AlertCircle, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  LineChart,
-  Line,
-} from 'recharts';
 
 export default function DashboardOverview() {
+  // Empty stats - to be replaced with real API data
   const stats = [
     {
-      title: 'Total Parts',
-      value: '1,234',
+      title: 'Total de Peças',
+      value: '-',
       icon: Package,
-      trend: '+12%',
+      trend: 'Carregando...',
       color: 'text-blue-500',
     },
     {
-      title: 'Available',
-      value: '856',
+      title: 'Disponível',
+      value: '-',
       icon: CheckCircle,
-      trend: '+8%',
+      trend: 'Carregando...',
       color: 'text-green-500',
     },
     {
-      title: 'In Use',
-      value: '289',
+      title: 'Em Uso',
+      value: '-',
       icon: TrendingUp,
-      trend: '+15%',
+      trend: 'Carregando...',
       color: 'text-purple-500',
     },
     {
-      title: 'Maintenance',
-      value: '89',
+      title: 'Manutenção',
+      value: '-',
       icon: AlertCircle,
-      trend: '-5%',
+      trend: 'Carregando...',
       color: 'text-yellow-500',
-    },
-  ];
-
-  const chartData = [
-    { month: 'Jan', parts: 400, usage: 240 },
-    { month: 'Feb', parts: 450, usage: 280 },
-    { month: 'Mar', parts: 520, usage: 320 },
-    { month: 'Apr', parts: 480, usage: 300 },
-    { month: 'May', parts: 600, usage: 380 },
-    { month: 'Jun', parts: 650, usage: 420 },
-  ];
-
-  const recentActivity = [
-    {
-      id: 1,
-      action: 'Part Added',
-      description: 'New hydraulic pump added to inventory',
-      time: '2 minutes ago',
-    },
-    {
-      id: 2,
-      action: 'Status Changed',
-      description: 'Part #1234 moved to maintenance',
-      time: '15 minutes ago',
-    },
-    {
-      id: 3,
-      action: 'Part Removed',
-      description: 'Old bearing removed from system',
-      time: '1 hour ago',
-    },
-    {
-      id: 4,
-      action: 'Worker Added',
-      description: 'New technician John Doe added',
-      time: '2 hours ago',
     },
   ];
 
@@ -101,89 +55,55 @@ export default function DashboardOverview() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-foreground">{stat.value}</div>
-                <p className="text-xs text-muted-foreground mt-1">{stat.trend} from last month</p>
+                <p className="text-xs text-muted-foreground mt-1">{stat.trend}</p>
               </CardContent>
             </Card>
           </motion.div>
         ))}
       </div>
 
-      {/* Charts */}
+      {/* Empty State for Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="glass border-border">
           <CardHeader>
-            <CardTitle className="text-foreground">Parts Inventory Trend</CardTitle>
+            <CardTitle className="text-foreground">Tendência de Inventário de Peças</CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" />
-                <YAxis stroke="hsl(var(--muted-foreground))" />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: 'hsl(var(--card))',
-                    border: '1px solid hsl(var(--border))',
-                    borderRadius: '8px',
-                    color: 'hsl(var(--foreground))'
-                  }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="parts"
-                  stroke="hsl(var(--accent))"
-                  strokeWidth={2}
-                />
-              </LineChart>
-            </ResponsiveContainer>
+            <div className="flex items-center justify-center h-[300px] text-muted-foreground">
+              <div className="text-center">
+                <Package className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                <p>Nenhum dado disponível</p>
+              </div>
+            </div>
           </CardContent>
         </Card>
 
         <Card className="glass border-border">
           <CardHeader>
-            <CardTitle className="text-foreground">Parts Usage</CardTitle>
+            <CardTitle className="text-foreground">Uso de Peças</CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" />
-                <YAxis stroke="hsl(var(--muted-foreground))" />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: 'hsl(var(--card))',
-                    border: '1px solid hsl(var(--border))',
-                    borderRadius: '8px',
-                    color: 'hsl(var(--foreground))'
-                  }}
-                />
-                <Bar dataKey="usage" fill="hsl(var(--accent))" />
-              </BarChart>
-            </ResponsiveContainer>
+            <div className="flex items-center justify-center h-[300px] text-muted-foreground">
+              <div className="text-center">
+                <TrendingUp className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                <p>Nenhum dado disponível</p>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Recent Activity */}
+      {/* Empty State for Recent Activity */}
       <Card className="glass border-border">
         <CardHeader>
-          <CardTitle className="text-foreground">Recent Activity</CardTitle>
+          <CardTitle className="text-foreground">Atividade Recente</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            {recentActivity.map((activity) => (
-              <div
-                key={activity.id}
-                className="flex items-start gap-4 p-3 rounded-lg glass hover:glass-hover transition-all duration-200"
-              >
-                <div className="w-2 h-2 bg-accent rounded-full mt-2"></div>
-                <div className="flex-1">
-                  <p className="font-medium text-foreground">{activity.action}</p>
-                  <p className="text-sm text-muted-foreground">{activity.description}</p>
-                </div>
-                <span className="text-xs text-muted-foreground">{activity.time}</span>
-              </div>
-            ))}
+          <div className="flex items-center justify-center py-12 text-muted-foreground">
+            <div className="text-center">
+              <AlertCircle className="w-12 h-12 mx-auto mb-4 opacity-50" />
+              <p>Nenhuma atividade recente</p>
+            </div>
           </div>
         </CardContent>
       </Card>

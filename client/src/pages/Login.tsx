@@ -26,18 +26,18 @@ export default function Login() {
       });
 
       if (response.error) {
-        toast.error('Login failed', {
-          description: response.error.message || 'Invalid credentials',
+        toast.error('Falha no login', {
+          description: response.error.message || 'Credenciais inválidas',
         });
       } else {
-        toast.success('Login successful!', {
-          description: `Welcome back, ${email}`,
+        toast.success('Login realizado com sucesso!', {
+          description: `Bem-vindo de volta, ${email}`,
         });
         navigate('/dashboard');
       }
     } catch (error: any) {
-      toast.error('Login failed', {
-        description: error.message || 'An error occurred during login',
+      toast.error('Falha no login', {
+        description: error.message || 'Ocorreu um erro durante o login',
       });
     } finally {
       setIsLoading(false);
@@ -55,7 +55,7 @@ export default function Login() {
         className="fixed top-6 left-6 md:left-12 flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm z-50"
       >
         <ArrowLeft className="w-4 h-4" />
-        Back
+        Voltar
       </Link>
 
       <motion.div
@@ -67,10 +67,10 @@ export default function Login() {
         <Card className="w-full max-w-md glass border-border">
           <CardHeader className="space-y-1 pb-8">
             <CardTitle className="text-3xl text-center font-semibold tracking-tight">
-              Welcome back
+              Bem-vindo de volta
             </CardTitle>
             <CardDescription className="text-center text-muted-foreground">
-              Enter your credentials to access your account
+              Digite suas credenciais para acessar sua conta
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -82,7 +82,7 @@ export default function Login() {
                   <Input
                     id="email"
                     type="email"
-                    placeholder="name@example.com"
+                    placeholder="nome@exemplo.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="pl-10"
@@ -91,13 +91,13 @@ export default function Login() {
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-sm font-medium">Password</Label>
+                <Label htmlFor="password" className="text-sm font-medium">Senha</Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <Input
                     id="password"
                     type="password"
-                    placeholder="Enter your password"
+                    placeholder="Digite sua senha"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="pl-10"
@@ -110,13 +110,13 @@ export default function Login() {
                 className="w-full rounded-full mt-6"
                 disabled={isLoading}
               >
-                {isLoading ? 'Signing in...' : 'Sign in'}
+                {isLoading ? 'Entrando...' : 'Entrar'}
               </Button>
             </form>
             <div className="mt-6 text-center text-sm">
-              <span className="text-muted-foreground">Don't have an account? </span>
+              <span className="text-muted-foreground">Não tem uma conta? </span>
               <Link to="/register" className="text-foreground hover:underline font-medium">
-                Sign up
+                Cadastrar
               </Link>
             </div>
           </CardContent>

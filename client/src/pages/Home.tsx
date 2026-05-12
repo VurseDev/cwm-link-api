@@ -11,9 +11,9 @@ export default function Home() {
   const [isDeleting, setIsDeleting] = useState(false);
 
   const phrases = [
-    'Parts Management',
-    'Inventory Control',
-    'Supply Chain Excellence'
+    'Gestão de Peças',
+    'Controle de Inventário',
+    'Excelência em Cadeia de Suprimentos'
   ];
 
   useEffect(() => {
@@ -42,33 +42,33 @@ export default function Home() {
   const features = [
     {
       icon: Package,
-      title: 'Parts Management',
-      description: 'Complete CRUD operations for parts with real-time tracking and status updates.',
+      title: 'Gestão de Peças',
+      description: 'Operações completas de CRUD para peças com rastreamento em tempo real e atualizações de status.',
     },
     {
       icon: BarChart3,
-      title: 'Analytics Dashboard',
-      description: 'Interactive charts and statistics showing parts distribution and trends over time.',
+      title: 'Dashboard de Análises',
+      description: 'Gráficos interativos e estatísticas mostrando distribuição e tendências de peças ao longo do tempo.',
     },
     {
       icon: Users,
-      title: 'Worker Management',
-      description: 'Manage your team with comprehensive worker profiles and activity tracking.',
+      title: 'Gestão de Trabalhadores',
+      description: 'Gerencie sua equipe com perfis abrangentes de trabalhadores e rastreamento de atividades.',
     },
     {
       icon: Lock,
-      title: 'Secure Authentication',
-      description: 'Token-based authentication with protected routes and role-based access control.',
+      title: 'Autenticação Segura',
+      description: 'Autenticação baseada em token com rotas protegidas e controle de acesso baseado em funções.',
     },
     {
       icon: FileText,
-      title: 'Activity Logs',
-      description: 'Detailed audit trails for all parts with timestamped action logs.',
+      title: 'Logs de Atividade',
+      description: 'Trilhas de auditoria detalhadas para todas as peças com logs de ação com registro de data e hora.',
     },
     {
       icon: Zap,
-      title: 'Real-time Updates',
-      description: 'Instant synchronization across all devices with live data updates.',
+      title: 'Atualizações em Tempo Real',
+      description: 'Sincronização instantânea em todos os dispositivos com atualizações de dados ao vivo.',
     },
   ];
 
@@ -83,7 +83,7 @@ export default function Home() {
           CWM Link
         </div>
         <Link to="/login" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
-          Sign in →
+          Entrar →
         </Link>
       </nav>
 
@@ -97,11 +97,11 @@ export default function Home() {
             className="text-center"
           >
             <div className="text-xs uppercase tracking-widest text-muted-foreground mb-8 font-medium">
-              FOR ENTERPRISES
+              PARA EMPRESAS
             </div>
 
             <h1 className="text-5xl md:text-7xl font-bold mb-6 text-foreground tracking-tight leading-tight">
-              Turn your inventory into excellence
+              Transforme seu inventário em excelência
             </h1>
 
             <div className="flex items-center justify-center min-h-[4rem] mb-6">
@@ -112,19 +112,19 @@ export default function Home() {
             </div>
 
             <p className="text-lg md:text-xl text-muted-foreground mb-12 max-w-2xl mx-auto leading-relaxed">
-              Enterprise-grade parts management system with real-time tracking,
-              comprehensive analytics, and seamless inventory control.
+              Sistema de gestão de peças de nível empresarial com rastreamento em tempo real,
+              análises abrangentes e controle de inventário sem complicações.
             </p>
 
             <div className="flex gap-4 justify-center flex-wrap">
               <Link to="/login">
                 <Button size="lg" className="rounded-full px-8 glow">
-                  Get Started
+                  Começar
                 </Button>
               </Link>
               <Link to="/register">
                 <Button size="lg" variant="outline" className="rounded-full px-8">
-                  Learn More
+                  Saiba Mais
                 </Button>
               </Link>
             </div>

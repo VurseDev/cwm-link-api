@@ -55,12 +55,12 @@ export default function PartsList() {
     mutationFn: partsApi.create,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['parts'] });
-      toast.success('Part created successfully');
+      toast.success('Peça criada com sucesso');
       setIsCreateOpen(false);
       resetForm();
     },
     onError: () => {
-      toast.error('Failed to create part');
+      toast.error('Falha ao criar peça');
     },
   });
 
@@ -69,13 +69,13 @@ export default function PartsList() {
       partsApi.update(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['parts'] });
-      toast.success('Part updated successfully');
+      toast.success('Peça atualizada com sucesso');
       setIsEditOpen(false);
       setSelectedPart(null);
       resetForm();
     },
     onError: () => {
-      toast.error('Failed to update part');
+      toast.error('Falha ao atualizar peça');
     },
   });
 
@@ -83,10 +83,10 @@ export default function PartsList() {
     mutationFn: partsApi.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['parts'] });
-      toast.success('Part deleted successfully');
+      toast.success('Peça excluída com sucesso');
     },
     onError: () => {
-      toast.error('Failed to delete part');
+      toast.error('Falha ao excluir peça');
     },
   });
 
@@ -123,7 +123,7 @@ export default function PartsList() {
   };
 
   const handleDelete = (id: number) => {
-    if (confirm('Are you sure you want to delete this part?')) {
+    if (confirm('Tem certeza de que deseja excluir esta peça?')) {
       deleteMutation.mutate(id);
     }
   };
@@ -138,6 +138,16 @@ export default function PartsList() {
     return colors[status];
   };
 
+  const getStatusLabel = (status: PartStatus) => {
+    const labels = {
+      [PartStatus.AVAILABLE]: 'Disponível',
+      [PartStatus.IN_USE]: 'Em Uso',
+      [PartStatus.MAINTENANCE]: 'Manutenção',
+      [PartStatus.RETIRED]: 'Aposentado',
+    };
+    return labels[status];
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -149,24 +159,24 @@ export default function PartsList() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-white">Parts Management</h1>
+        <h1 className="text-2xl font-bold text-white">Gestão de Peças</h1>
         <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
           <DialogTrigger asChild>
             <Button>
               <Plus className="w-4 h-4 mr-2" />
-              Add Part
+              Adicionar Peça
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Create New Part</DialogTitle>
+              <DialogTitle>Criar Nova Peça</DialogTitle>
               <DialogDescription>
-                Add a new part to your inventory
+                Adicione uma nova peça ao seu inventário
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
               <div>
-                <Label htmlFor="partNumber">Part Number</Label>
+                <Label htmlFor="partNumber">Número da Peça</Label>
                 <Input
                   id="partNumber"
                   value={formData.partNumber}
@@ -176,7 +186,7 @@ export default function PartsList() {
                 />
               </div>
               <div>
-                <Label htmlFor="description">Description</Label>
+                <Label htmlFor="description">Descrição</Label>
                 <Input
                   id="description"
                   value={formData.description}
@@ -199,14 +209,14 @@ export default function PartsList() {
                   <SelectContent>
                     {Object.values(PartStatus).map((status) => (
                       <SelectItem key={status} value={status}>
-                        {status}
+                        {getStatusLabel(status)}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
               <div>
-                <Label htmlFor="quantity">Quantity</Label>
+                <Label htmlFor="quantity">Quantidade</Label>
                 <Input
                   id="quantity"
                   type="number"
@@ -217,7 +227,7 @@ export default function PartsList() {
                 />
               </div>
               <div>
-                <Label htmlFor="location">Location</Label>
+                <Label htmlFor="location">Localização</Label>
                 <Input
                   id="location"
                   value={formData.location}
@@ -227,7 +237,7 @@ export default function PartsList() {
                 />
               </div>
               <Button onClick={handleCreate} className="w-full">
-                Create Part
+                Criar Peça
               </Button>
             </div>
           </DialogContent>
@@ -238,12 +248,12 @@ export default function PartsList() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Part Number</TableHead>
-              <TableHead>Description</TableHead>
+              <TableHead>Número da Peça</TableHead>
+              <TableHead>Descrição</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead>Quantity</TableHead>
-              <TableHead>Location</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead>Quantidade</TableHead>
+              <TableHead>Localização</TableHead>
+              <TableHead className="text-right">Ações</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -253,7 +263,7 @@ export default function PartsList() {
                 <TableCell>{part.description}</TableCell>
                 <TableCell>
                   <Badge className={getStatusColor(part.status)}>
-                    {part.status}
+                    {getStatusLabel(part.status)}
                   </Badge>
                 </TableCell>
                 <TableCell>{part.quantity}</TableCell>
@@ -286,12 +296,12 @@ export default function PartsList() {
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit Part</DialogTitle>
-            <DialogDescription>Update part information</DialogDescription>
+            <DialogTitle>Editar Peça</DialogTitle>
+            <DialogDescription>Atualizar informações da peça</DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
             <div>
-              <Label htmlFor="edit-partNumber">Part Number</Label>
+              <Label htmlFor="edit-partNumber">Número da Peça</Label>
               <Input
                 id="edit-partNumber"
                 value={formData.partNumber}
@@ -301,7 +311,7 @@ export default function PartsList() {
               />
             </div>
             <div>
-              <Label htmlFor="edit-description">Description</Label>
+              <Label htmlFor="edit-description">Descrição</Label>
               <Input
                 id="edit-description"
                 value={formData.description}
@@ -324,14 +334,14 @@ export default function PartsList() {
                 <SelectContent>
                   {Object.values(PartStatus).map((status) => (
                     <SelectItem key={status} value={status}>
-                      {status}
+                      {getStatusLabel(status)}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <Label htmlFor="edit-quantity">Quantity</Label>
+              <Label htmlFor="edit-quantity">Quantidade</Label>
               <Input
                 id="edit-quantity"
                 type="number"
@@ -342,7 +352,7 @@ export default function PartsList() {
               />
             </div>
             <div>
-              <Label htmlFor="edit-location">Location</Label>
+              <Label htmlFor="edit-location">Localização</Label>
               <Input
                 id="edit-location"
                 value={formData.location}
@@ -352,7 +362,7 @@ export default function PartsList() {
               />
             </div>
             <Button onClick={handleUpdate} className="w-full">
-              Update Part
+              Atualizar Peça
             </Button>
           </div>
         </DialogContent>
