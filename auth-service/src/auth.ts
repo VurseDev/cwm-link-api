@@ -4,6 +4,7 @@ import { db } from "./database/client";
 import * as schema from "./database/schema";
 
 export const auth = betterAuth({
+  // Mantem as rotas de auth isoladas do restante do microservice.
   basePath: "/api/auth",
 
   database: drizzleAdapter(db, {
@@ -16,6 +17,7 @@ export const auth = betterAuth({
     enabled: true,
     autoSignIn: true,
     password: {
+      // Bun.password fornece hash/verify nativos para o fluxo email/senha.
       hash: async (password: string) => {
         return await Bun.password.hash(password);
       },
@@ -33,5 +35,5 @@ export const auth = betterAuth({
     },
   },
   
-  trustedOrigins: ["*"], // Allow all origins for development
+  trustedOrigins: ["*"], // Desenvolvimento local; restrinja em producao.
 });

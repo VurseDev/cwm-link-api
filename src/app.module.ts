@@ -6,6 +6,7 @@ import { PrismaService } from './prisma/prisma.service';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
+  // ConfigModule carrega o .env da raiz e deixa DATABASE_URL/PORT globais.
   imports: [ConfigModule.forRoot({ isGlobal: true }), PartsModule],
   controllers: [AppController],
   providers: [AppService, PrismaService],

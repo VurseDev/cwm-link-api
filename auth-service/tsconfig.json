@@ -17,5 +17,6 @@
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false,
     "types": ["bun-types"]
-  }
+  },
+  "exclude": ["src/database/client.sqlite.ts"]
 }

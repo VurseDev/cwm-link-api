@@ -1,44 +1,42 @@
-export enum PartStatus {
-  AVAILABLE = 'available',
-  IN_USE = 'in_use',
-  MAINTENANCE = 'maintenance',
-  RETIRED = 'retired',
-}
+export const PartStatus = {
+  AVAILABLE: 'available',
+  IN_USE: 'in_use',
+  MAINTENANCE: 'maintenance',
+  RETIRED: 'retired',
+} as const;
+
+export type PartStatus = (typeof PartStatus)[keyof typeof PartStatus];
 
 export interface Part {
   id: number;
-  partNumber: string;
-  description: string;
+  serialId: string;
+  partName: string;
+  partDescription: string;
   status: PartStatus;
-  quantity: number;
-  location?: string;
   createdAt: string;
-  updatedAt: string;
+  logs?: Log[];
 }
 
 export interface CreatePartDto {
-  partNumber: string;
-  description: string;
+  serialId: string;
+  operator: string;
+  partName: string;
+  partDescription: string;
   status: PartStatus;
-  quantity: number;
-  location?: string;
 }
 
 export interface UpdatePartDto {
-  partNumber?: string;
-  description?: string;
+  partName?: string;
+  partDescription?: string;
   status?: PartStatus;
-  quantity?: number;
-  location?: string;
 }
 
 export interface Log {
   id: number;
-  action: string;
+  step: string;
+  operator: string;
   partId: number;
-  workerId: number;
   timestamp: string;
-  details?: string;
 }
 
 export interface Worker {

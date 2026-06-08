@@ -6,11 +6,13 @@ const PORT = process.env.PORT || 3000;
 
 const app = new Elysia()
   .use(
+    // O front usa cookies de sessao do Better Auth, por isso credentials fica ativo.
     cors({
-      origin: true, // Allow all origins in development (change for production)
+      origin: true,
       credentials: true,
     })
   )
+  // Monta todas as rotas /api/auth/* gerenciadas pelo Better Auth.
   .use(betterAuthPlugin)
   .get("/", () => ({
     message: "CWM Link Auth Service",
@@ -19,6 +21,7 @@ const app = new Elysia()
       auth: "/api/auth/*",
     },
   }))
+  // Endpoint simples para validar se o microservice subiu.
   .get("/health", () => ({
     status: "ok",
     timestamp: new Date().toISOString(),

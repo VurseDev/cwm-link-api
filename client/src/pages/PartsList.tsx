@@ -38,12 +38,13 @@ export default function PartsList() {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [selectedPart, setSelectedPart] = useState<Part | null>(null);
 
+  // Estado compartilhado pelos dialogs de criar e editar peca.
   const [formData, setFormData] = useState<CreatePartDto>({
-    partNumber: '',
-    description: '',
+    serialId: '',
+    operator: '',
+    partName: '',
+    partDescription: '',
     status: PartStatus.AVAILABLE,
-    quantity: 0,
-    location: '',
   });
 
   const { data: parts, isLoading } = useQuery({
@@ -51,6 +52,7 @@ export default function PartsList() {
     queryFn: partsApi.getAll,
   });
 
+  // Ao gravar, invalida o cache para recarregar a tabela com dados do backend.
   const createMutation = useMutation({
     mutationFn: partsApi.create,
     onSuccess: () => {
@@ -65,8 +67,8 @@ export default function PartsList() {
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, data }: { id: number; data: Partial<Part> }) =>
-      partsApi.update(id, data),
+    mutationFn: ({ serialId, data }: { serialId: string; data: Partial<Part> }) =>
+      partsApi.update(serialId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['parts'] });
       toast.success('Peça atualizada com sucesso');
@@ -92,11 +94,11 @@ export default function PartsList() {
 
   const resetForm = () => {
     setFormData({
-      partNumber: '',
-      description: '',
+      serialId: '',
+      operator: '',
+      partName: '',
+      partDescription: '',
       status: PartStatus.AVAILABLE,
-      quantity: 0,
-      location: '',
     });
   };
 
@@ -106,29 +108,31 @@ export default function PartsList() {
 
   const handleEdit = (part: Part) => {
     setSelectedPart(part);
+    // serialId nao e editavel; ele identifica a rota PATCH/DELETE no backend.
     setFormData({
-      partNumber: part.partNumber,
-      description: part.description,
+      serialId: part.serialId,
+      operator: '',
+      partName: part.partName,
+      partDescription: part.partDescription,
       status: part.status,
-      quantity: part.quantity,
-      location: part.location || '',
     });
     setIsEditOpen(true);
   };
 
   const handleUpdate = () => {
     if (selectedPart) {
-      updateMutation.mutate({ id: selectedPart.id, data: formData });
+      updateMutation.mutate({ serialId: selectedPart.serialId, data: formData });
     }
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (serialId: string) => {
     if (confirm('Tem certeza de que deseja excluir esta peça?')) {
-      deleteMutation.mutate(id);
+      deleteMutation.mutate(serialId);
     }
   };
 
   const getStatusColor = (status: PartStatus) => {
+    // Mantem a regra visual de status centralizada para tabela e selects.
     const colors = {
       [PartStatus.AVAILABLE]: 'bg-green-500',
       [PartStatus.IN_USE]: 'bg-blue-500',
@@ -176,22 +180,32 @@ export default function PartsList() {
             </DialogHeader>
             <div className="space-y-4">
               <div>
-                <Label htmlFor="partNumber">Número da Peça</Label>
+                <Label htmlFor="serialId">Serial</Label>
                 <Input
-                  id="partNumber"
-                  value={formData.partNumber}
+                  id="serialId"
+                  value={formData.serialId}
                   onChange={(e) =>
-                    setFormData({ ...formData, partNumber: e.target.value })
+                    setFormData({ ...formData, serialId: e.target.value })
                   }
                 />
               </div>
               <div>
-                <Label htmlFor="description">Descrição</Label>
+                <Label htmlFor="partName">Nome da Peça</Label>
                 <Input
-                  id="description"
-                  value={formData.description}
+                  id="partName"
+                  value={formData.partName}
                   onChange={(e) =>
-                    setFormData({ ...formData, description: e.target.value })
+                    setFormData({ ...formData, partName: e.target.value })
+                  }
+                />
+              </div>
+              <div>
+                <Label htmlFor="partDescription">Descrição</Label>
+                <Input
+                  id="partDescription"
+                  value={formData.partDescription}
+                  onChange={(e) =>
+                    setFormData({ ...formData, partDescription: e.target.value })
                   }
                 />
               </div>
@@ -216,23 +230,12 @@ export default function PartsList() {
                 </Select>
               </div>
               <div>
-                <Label htmlFor="quantity">Quantidade</Label>
+                <Label htmlFor="operator">Operador</Label>
                 <Input
-                  id="quantity"
-                  type="number"
-                  value={formData.quantity}
+                  id="operator"
+                  value={formData.operator}
                   onChange={(e) =>
-                    setFormData({ ...formData, quantity: parseInt(e.target.value) })
-                  }
-                />
-              </div>
-              <div>
-                <Label htmlFor="location">Localização</Label>
-                <Input
-                  id="location"
-                  value={formData.location}
-                  onChange={(e) =>
-                    setFormData({ ...formData, location: e.target.value })
+                    setFormData({ ...formData, operator: e.target.value })
                   }
                 />
               </div>
@@ -248,26 +251,26 @@ export default function PartsList() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Número da Peça</TableHead>
+              <TableHead>Serial</TableHead>
+              <TableHead>Nome</TableHead>
               <TableHead>Descrição</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead>Quantidade</TableHead>
-              <TableHead>Localização</TableHead>
+              <TableHead>Criado em</TableHead>
               <TableHead className="text-right">Ações</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {parts?.map((part) => (
               <TableRow key={part.id}>
-                <TableCell className="font-medium">{part.partNumber}</TableCell>
-                <TableCell>{part.description}</TableCell>
+                <TableCell className="font-medium">{part.serialId}</TableCell>
+                <TableCell>{part.partName}</TableCell>
+                <TableCell>{part.partDescription}</TableCell>
                 <TableCell>
                   <Badge className={getStatusColor(part.status)}>
                     {getStatusLabel(part.status)}
                   </Badge>
                 </TableCell>
-                <TableCell>{part.quantity}</TableCell>
-                <TableCell>{part.location || '-'}</TableCell>
+                <TableCell>{new Date(part.createdAt).toLocaleDateString()}</TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
                     <Button
@@ -280,7 +283,7 @@ export default function PartsList() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      onClick={() => handleDelete(part.id)}
+                      onClick={() => handleDelete(part.serialId)}
                     >
                       <Trash2 className="w-4 h-4" />
                     </Button>
@@ -301,22 +304,30 @@ export default function PartsList() {
           </DialogHeader>
           <div className="space-y-4">
             <div>
-              <Label htmlFor="edit-partNumber">Número da Peça</Label>
+              <Label htmlFor="edit-serialId">Serial</Label>
               <Input
-                id="edit-partNumber"
-                value={formData.partNumber}
+                id="edit-serialId"
+                value={formData.serialId}
+                disabled
+              />
+            </div>
+            <div>
+              <Label htmlFor="edit-partName">Nome da Peça</Label>
+              <Input
+                id="edit-partName"
+                value={formData.partName}
                 onChange={(e) =>
-                  setFormData({ ...formData, partNumber: e.target.value })
+                  setFormData({ ...formData, partName: e.target.value })
                 }
               />
             </div>
             <div>
-              <Label htmlFor="edit-description">Descrição</Label>
+              <Label htmlFor="edit-partDescription">Descrição</Label>
               <Input
-                id="edit-description"
-                value={formData.description}
+                id="edit-partDescription"
+                value={formData.partDescription}
                 onChange={(e) =>
-                  setFormData({ ...formData, description: e.target.value })
+                  setFormData({ ...formData, partDescription: e.target.value })
                 }
               />
             </div>
@@ -339,27 +350,6 @@ export default function PartsList() {
                   ))}
                 </SelectContent>
               </Select>
-            </div>
-            <div>
-              <Label htmlFor="edit-quantity">Quantidade</Label>
-              <Input
-                id="edit-quantity"
-                type="number"
-                value={formData.quantity}
-                onChange={(e) =>
-                  setFormData({ ...formData, quantity: parseInt(e.target.value) })
-                }
-              />
-            </div>
-            <div>
-              <Label htmlFor="edit-location">Localização</Label>
-              <Input
-                id="edit-location"
-                value={formData.location}
-                onChange={(e) =>
-                  setFormData({ ...formData, location: e.target.value })
-                }
-              />
             </div>
             <Button onClick={handleUpdate} className="w-full">
               Atualizar Peça

@@ -4,7 +4,7 @@ import { PartsService } from '../src/parts/parts.service';
 import { PrismaService } from '../src/prisma/prisma.service';
 import { CreatePartDto } from '../src/parts/dto/create-part.dto';
 import { UpdatePartDto } from '../src/parts/dto/update-part.dto';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '../generated/prisma/client';
 
 describe('PartsService', () => {
   let service: PartsService;
@@ -79,8 +79,6 @@ describe('PartsService', () => {
       partName: 'Test Part',
       partDescription: 'A test part',
       status: 'pending',
-      part: [],
-      logs: [],
     };
 
     it('should successfully create a part with an initial log', async () => {

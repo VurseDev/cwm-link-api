@@ -2,10 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePartDto } from './dto/create-part.dto';
 import { UpdatePartDto } from './dto/update-part.dto';
 import { PrismaService } from '../prisma/prisma.service';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '../../generated/prisma/client';
 @Injectable()
 export class PartsService {
   constructor(private prisma: PrismaService) {}
+
   async create(dto: CreatePartDto) {
     return this.prisma.part.create({
       data: {
@@ -14,6 +15,7 @@ export class PartsService {
         partDescription: dto.partDescription,
         status: dto.status,
         logs: {
+          // Toda peca nasce com um log inicial para manter rastreabilidade.
           create: {
             step: 'created',
             operator: dto.operator,
@@ -25,6 +27,7 @@ export class PartsService {
   }
 
   async addLog(serialId: string, body: { step: string; operator: string }) {
+    // O front e as rotas usam serialId como identificador publico da peca.
     const part = await this.prisma.part.findUnique({
       where: { serialId },
     });
@@ -67,6 +70,7 @@ export class PartsService {
         include: { logs: true },
       });
     } catch (error) {
+      // P2025 e o codigo do Prisma para registro inexistente em update/delete.
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2025') {
           throw new NotFoundException(`Part with serialId ${serialId} not found`);

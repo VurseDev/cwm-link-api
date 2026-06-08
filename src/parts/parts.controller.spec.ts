@@ -74,8 +74,6 @@ describe('PartsController', () => {
       partName: 'Test Part',
       partDescription: 'A test part',
       status: 'pending',
-      part: [],
-      logs: [],
     };
 
     it('should successfully create a part', async () => {
@@ -468,8 +466,6 @@ describe('PartsController', () => {
         partName: 'Lifecycle Part',
         partDescription: 'Testing lifecycle',
         status: 'pending',
-        part: [],
-        logs: [],
       };
 
       const createdPart = {
