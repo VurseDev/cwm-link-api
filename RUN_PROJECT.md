@@ -60,7 +60,7 @@ Conteudo esperado:
 
 ```env
 DATABASE_URL=file:./dev.db
-PORT=3001
+PORT=3005
 ```
 
 Auth service:
@@ -90,7 +90,7 @@ Conteudo esperado:
 
 ```env
 VITE_AUTH_URL=http://localhost:3000
-VITE_API_URL=http://localhost:3001
+VITE_API_URL=http://localhost:3005
 ```
 
 ## 4. Preparar bancos locais
@@ -113,18 +113,43 @@ cd ..
 
 ## 5. Rodar os servicos
 
-Para subir tudo de uma vez no Windows, rode na raiz:
+Opcao recomendada (um clique):
+
+```powershell
+.\start-project.cmd
+```
+
+Ele faz tudo automaticamente:
+- verifica Node/npm/Bun
+- cria os arquivos `.env` se estiverem ausentes
+- instala dependencias no backend, frontend e auth-service
+- executa Prisma e Drizzle setup
+- abre tres janelas com os servicos
+
+Para apenas validar o ambiente sem iniciar os servidores:
+
+```powershell
+.\start-project.cmd -CheckOnly
+```
+
+Se voce ja tem tudo instalado e quer pular as instalacoes:
+
+```powershell
+.\start-project.cmd -SkipInstall
+```
+
+Para executar com um Node pré-compilado e ignorar a versão instalada no sistema:
+
+```powershell
+.\start-project-bundled-node.cmd -NodeDir .\tools\node
+```
+
+O diretório `NodeDir` deve conter `node.exe` e `node_modules\npm\bin\npm-cli.js`.
+
+O antigo wrapper continua funcionando, mas o novo script e o recomendado:
 
 ```powershell
 .\run-project.bat
-```
-
-Ele abre tres janelas, uma para cada servico.
-
-Para apenas validar requisitos sem iniciar os servidores:
-
-```powershell
-.\run-project.bat --check
 ```
 
 Opcionalmente, rode manualmente como descrito abaixo.
@@ -146,7 +171,7 @@ Terminal 2, backend NestJS:
 npm run start:dev
 ```
 
-URL: `http://localhost:3001`
+URL: `http://localhost:3005`
 
 Terminal 3, frontend:
 
@@ -168,7 +193,7 @@ Invoke-WebRequest http://localhost:3000/health
 Backend:
 
 ```powershell
-Invoke-WebRequest http://localhost:3001/parts
+Invoke-WebRequest http://localhost:3005/parts
 ```
 
 Frontend:
@@ -208,7 +233,7 @@ bun run dev
 Para desenvolvimento local, mantenha:
 
 - Auth service em `3000`.
-- Backend NestJS em `3001`.
+- Backend NestJS em `3005`.
 - Frontend Vite em `5173`.
 
 Essa combinacao bate com `client/.env.example` e evita conflito entre o Nest e o auth service.
