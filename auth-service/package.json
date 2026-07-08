@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "bun run --watch src/index.ts",
-    "db:generate": "bun --env-file .env --bun drizzle-kit generate",
-    "db:migrate": "bun --env-file .env --bun drizzle-kit migrate"
+    "db:generate": "node --env-file .env ./node_modules/drizzle-kit/bin.cjs generate",
+    "db:migrate": "node --env-file .env ./node_modules/drizzle-kit/bin.cjs migrate"
   },
   "dependencies": {
     "@elysiajs/cors": "^1.2.1",
